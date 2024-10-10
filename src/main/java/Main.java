@@ -1,13 +1,15 @@
-import Entities.Usuario;
 
-import java.util.Date;
+import Entities.*;
+import View.InitialState;
 
 public class Main {
 
+    public static Usuario user;
+
+
+
     public static void main(String[] args) {
-        Usuario usuario = new Usuario(1, "John Doe", "123456789", "john@example.com", new Date());
-        System.out.println();
-        usuario.login();
-        Debug.PrintOut(usuario);
+        InitialState state = new InitialState();
+        state.AskMain();
     }
 }

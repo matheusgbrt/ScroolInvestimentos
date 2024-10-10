@@ -10,6 +10,7 @@ public class Usuario {
     private String nome;
     private String telefone;
     private String email;
+    private String username;
     private Date dataCadastro;
     private List<Notificacao> notificacoes;
     private List<Conta> contas;
@@ -24,6 +25,7 @@ public class Usuario {
         setContas();
         setNotificacoes();
     }
+
 
     // Methods
     public void login() {
