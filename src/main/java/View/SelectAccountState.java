@@ -77,7 +77,7 @@ public class SelectAccountState extends BaseState {
 
 
     private void GetAccounts() {
-        _accounts = accountsDAO.getContas(_user.getIdusuario());
+        _accounts = accountsDAO.GetContas(_user.getIdusuario());
     }
 
 }

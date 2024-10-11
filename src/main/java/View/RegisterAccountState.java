@@ -7,8 +7,6 @@ import Utils.Evaluator.EvalReturn;
 import Utils.Evaluator.Evaluator;
 import Utils.ScreenWriter;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Objects;
 
 public class RegisterAccountState extends BaseState{
@@ -52,7 +50,7 @@ public class RegisterAccountState extends BaseState{
     }
 
     private void insertAccount(String nomeConta){
-        boolean result = accountsDAO.initInsertAccount(_user.getIdusuario(),nomeConta);
+        boolean result = accountsDAO.InitInsertAccount(_user.getIdusuario(),nomeConta);
         if(!result){
             ScreenWriter.Write("Ocorreu um erro! Tente novamente.");
         }else{

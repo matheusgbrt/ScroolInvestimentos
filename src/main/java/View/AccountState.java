@@ -64,7 +64,7 @@ public class AccountState extends BaseState{
                 new MainState(_user,true);
                 break;
             case 1:
-                new AddAccountProductState(_user,_account);
+                new AccountProductState(_user,_account,true);
                 break;
             case 2:
                 new NotificationState(_user);
@@ -73,7 +73,7 @@ public class AccountState extends BaseState{
                 new SelectAccountState(_user);
                 break;
             case 4:
-                new RegisterAccountState(_user);
+                new AccountProductState(_user,_account,false);
                 break;
         }
     }

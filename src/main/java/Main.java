@@ -2,6 +2,8 @@
 import Entities.*;
 import View.InitialState;
 
+import java.io.ByteArrayInputStream;
+
 public class Main {
 
     public static Usuario user;
