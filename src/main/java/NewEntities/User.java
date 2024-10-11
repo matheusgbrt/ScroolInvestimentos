@@ -1,6 +1,7 @@
 package NewEntities;
 
 import Services.UsersDAO;
+import Utils.ScreenWriter;
 
 import java.util.Date;
 
@@ -77,5 +78,13 @@ public class User {
         _email = email;
     }
 
+
+    public void print_userData(){
+        ScreenWriter.WritePadded("Dados do Usuário:");
+        ScreenWriter.Write(String.format("Nome: %s", get_nome()));
+        ScreenWriter.Write(String.format("Telefone: %s", get_telefone()));
+        ScreenWriter.Write(String.format("Email: %s", get_email()));
+        ScreenWriter.Write("Data de Cadastro: " + get_dataCadastro());
+    }
 
 }

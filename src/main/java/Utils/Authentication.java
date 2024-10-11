@@ -29,7 +29,7 @@ public class Authentication {
     public boolean Authenticate(){
         hashPassword=service.getUserPassword(_username);
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-        return hashPassword.equals(passwordEncoder.encode(_password));
+        return passwordEncoder.matches(_password, hashPassword);
     }
 
 }

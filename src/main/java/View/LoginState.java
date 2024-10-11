@@ -8,9 +8,10 @@ import Utils.Evaluator.EvalReturn;
 import Utils.Evaluator.Evaluator;
 import Utils.ScreenWriter;
 
+
 import java.util.Objects;
 
-public class LoginState {
+public class LoginState extends BaseState   {
     Evaluator eval = new Evaluator("Usuário");
     String _username;
     String _inputPassword;
@@ -33,10 +34,9 @@ public class LoginState {
             GetUserData();
         }else{
             User user = new User(_username,auth.getHashPassword());
-
+            MainState mainState = new MainState(user,true);
+            mainState.setUser(user);
         }
-
-
     }
 
 
@@ -44,6 +44,7 @@ public class LoginState {
         ScreenWriter.WriteEmptyLine();
         ScreenWriter.Write("Usuário:");
         eval.setPattern(getUsernamePattern());
+        eval.setField("Usuário");
         EvalReturn _ret = eval.EvalData();
         if (Objects.equals(_ret.message, "SAIR")) {
             InitialState state = new InitialState();
@@ -64,6 +65,7 @@ public class LoginState {
         ScreenWriter.WriteEmptyLine();
         ScreenWriter.Write("Senha:");
         eval.setPattern(getPasswordPattern());
+        eval.setField("Senha");
         EvalReturn _ret = eval.EvalData();
         if (!_ret.valid) {
             _ret.errors.forEach(ScreenWriter::Write);
@@ -73,22 +75,4 @@ public class LoginState {
         }
     }
 
-
-    private EvalPatterns getUsernamePattern() {
-        EvalPatterns pattern = new EvalPatterns(DataTypes.STRING);
-        EvalPatterns.StringOptions options = new EvalPatterns.StringOptions();
-        options.allowEmpty = false;
-        options.maxLength = 50;
-        pattern.setOptions(options);
-        return pattern;
-    }
-
-    private EvalPatterns getPasswordPattern() {
-        EvalPatterns pattern = new EvalPatterns(DataTypes.STRING);
-        EvalPatterns.StringOptions options = new EvalPatterns.StringOptions();
-        options.allowEmpty = false;
-        options.maxLength = 50;
-        pattern.setOptions(options);
-        return pattern;
-    }
 }

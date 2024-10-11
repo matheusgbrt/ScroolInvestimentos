@@ -9,10 +9,10 @@ import Utils.ScreenWriter;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-public class InitialState {
+public class InitialState extends BaseState {
     public void AskMain(){
         WriteStart();
-        Evaluator eval = new Evaluator("seleção",getMainPattern());
+        Evaluator eval = new Evaluator("seleção",getSelectionPattern(new ArrayList<>(Arrays.asList(0,1, 2, 3, 4))));
         EvalReturn evalReturn = eval.EvalData();
         if (!evalReturn.valid){
             evalReturn.errors.forEach(ScreenWriter::Write);
@@ -53,16 +53,4 @@ public class InitialState {
                 break;
         }
     }
-
-
-    private EvalPatterns getMainPattern(){
-    EvalPatterns pattern = new EvalPatterns(DataTypes.INTEGER);
-        EvalPatterns.IntegerOptions options = new EvalPatterns.IntegerOptions();
-        options.allowedValues = new ArrayList<>(Arrays.asList(0,1, 2, 3, 4));
-        options.allowEmpty=false;
-        pattern.setOptions(options);
-        return pattern;
-    }
-
-
 }

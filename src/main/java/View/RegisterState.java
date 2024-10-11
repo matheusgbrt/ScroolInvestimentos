@@ -10,7 +10,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.util.Objects;
 
-public class RegisterState {
+public class RegisterState extends BaseState {
     Evaluator eval = new Evaluator("Usuário");
     String _username;
     String _inputPassword;
@@ -152,55 +152,6 @@ public class RegisterState {
         else {
             _email = _ret.message;
         }
-    }
-
-
-    private EvalPatterns getNomePattern() {
-        EvalPatterns pattern = new EvalPatterns(DataTypes.STRING);
-        EvalPatterns.StringOptions options = new EvalPatterns.StringOptions();
-        options.allowEmpty = false;
-        options.maxLength = 300;
-        pattern.setOptions(options);
-        return pattern;
-    }
-
-
-    private EvalPatterns getUsernamePattern() {
-        EvalPatterns pattern = new EvalPatterns(DataTypes.STRING);
-        EvalPatterns.StringOptions options = new EvalPatterns.StringOptions();
-        options.allowEmpty = false;
-        options.maxLength = 50;
-        pattern.setOptions(options);
-        return pattern;
-    }
-
-    private EvalPatterns getPasswordPattern() {
-        EvalPatterns pattern = new EvalPatterns(DataTypes.STRING);
-        EvalPatterns.StringOptions options = new EvalPatterns.StringOptions();
-        options.allowEmpty = false;
-        options.maxLength = 20;
-        pattern.setOptions(options);
-        return pattern;
-    }
-
-    private EvalPatterns getTelefonePattern() {
-        EvalPatterns pattern = new EvalPatterns(DataTypes.STRING);
-        EvalPatterns.StringOptions options = new EvalPatterns.StringOptions();
-        options.allowEmpty = false;
-        options.maxLength = 30;
-        options.regexpattern = "\\(\\d{2}\\)\\d{5}-\\d{4}";
-        pattern.setOptions(options);
-        return pattern;
-    }
-
-    private EvalPatterns getEmailPattern() {
-        EvalPatterns pattern = new EvalPatterns(DataTypes.STRING);
-        EvalPatterns.StringOptions options = new EvalPatterns.StringOptions();
-        options.allowEmpty = false;
-        options.maxLength = 300;
-        options.regexpattern = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$";
-        pattern.setOptions(options);
-        return pattern;
     }
 
 }
