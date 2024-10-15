@@ -40,6 +40,7 @@ public class Evaluator {
         switch (_pattern.datatype) {
             case STRING -> returnValue.valid = EvalString(message, (EvalPatterns.StringOptions) _pattern.options);
             case INTEGER -> returnValue.valid = EvalInteger(message, (EvalPatterns.IntegerOptions) _pattern.options);
+            case DOUBLE -> returnValue.valid = EvalDouble(message, (EvalPatterns.DoubleOptions) _pattern.options);
         }
         returnValue.errors = errorList;
         return returnValue;
@@ -91,6 +92,40 @@ public class Evaluator {
         if (!options.allowEmpty && message.isEmpty()) {
             valid = false;
             errorList.add(String.format("%s não pode ser vazio!", _field));
+            return valid;
+        }
+        if (!options.allowNegative && number < 0) {
+            valid = false;
+            errorList.add(String.format("%s não pode ser vazio!", _field));
+        }
+        if (!options.allowZero && number == 0) {
+            valid = false;
+            errorList.add(String.format("%s não pode ser zero!", _field));
+        }
+        return valid;
+    }
+
+    private boolean EvalDouble(String message, EvalPatterns.DoubleOptions options) {
+        boolean valid = true;
+        double number;
+
+        try {
+            number = Double.parseDouble(message);
+        } catch (NumberFormatException e) {
+            valid = false;
+            errorList.add(String.format("%s precisa ser um número!", _field));
+            return valid;
+        }
+
+
+        if (!options.allowEmpty && message.isEmpty()) {
+            valid = false;
+            errorList.add(String.format("%s não pode ser vazio!", _field));
+            return valid;
+        }
+        if (options.minValue != 0 && number > options.minValue){
+            errorList.add(String.format("%s não pode ser maior que %.2f!", _field,options.minValue));
+            valid = false;
             return valid;
         }
         if (!options.allowNegative && number < 0) {

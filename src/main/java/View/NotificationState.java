@@ -1,19 +1,22 @@
 package View;
 
+import NewEntities.Account;
 import NewEntities.Notification;
 import NewEntities.User;
 import Services.NotificationsDAO;
 import Utils.Evaluator.EvalReturn;
 import Utils.Evaluator.Evaluator;
 import Utils.ScreenWriter;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 public class NotificationState extends BaseState {
 
-    private List<Notification> list;
     NotificationsDAO notificationsDAO = new NotificationsDAO();
+    Account _account;
+    private List<Notification> list;
 
     public NotificationState(User user) {
         setUser(user);
@@ -21,36 +24,48 @@ public class NotificationState extends BaseState {
         ShowNotifications();
     }
 
+    public NotificationState(User user,Account account) {
+        setUser(user);
+        _account = account;
+        ScreenWriter.WritePadded("Notificações");
+        ShowNotifications();
+    }
+
+
     private void ShowNotifications() {
         getNotifications();
         if (!list.isEmpty()) {
             WriteNotifications();
             AskRead();
-        }else{
+        } else {
             ScreenWriter.Write("Nenhuma notificação encontrada!");
             ShowMain();
         }
     }
 
-    private void ShowMain(){
-        new  MainState(_user,false);
+    private void ShowMain() {
+        if (_account != null) {
+            new AccountState(_user, _account, true);
+        } else {
+            new MainState(_user, false);
+        }
     }
 
     private void AskRead() {
         ScreenWriter.Write("Deseja marcar estas notificações como lidas?");
         ScreenWriter.Write("1. Sim");
         ScreenWriter.Write("2. Não");
-        Evaluator eval = new Evaluator("seleção",getSelectionPattern(new ArrayList<>(Arrays.asList(0,1, 2, 3, 4))));
+        Evaluator eval = new Evaluator("seleção", getSelectionPattern(new ArrayList<>(Arrays.asList(0, 1, 2, 3, 4))));
         EvalReturn evalReturn = eval.EvalData();
-        if (!evalReturn.valid){
+        if (!evalReturn.valid) {
             evalReturn.errors.forEach(ScreenWriter::Write);
             AskRead();
-        }else{
+        } else {
             Decider(Integer.parseInt(evalReturn.message));
         }
     }
 
-    private void Decider(Integer selection){
+    private void Decider(Integer selection) {
         if (selection == 1) {
             notificationsDAO.updateRead(_user.getIdusuario());
         }
@@ -58,17 +73,17 @@ public class NotificationState extends BaseState {
     }
 
 
-    private void getNotifications(){
-        list= notificationsDAO.getUserNotifications(_user.getIdusuario());
+    private void getNotifications() {
+        list = notificationsDAO.getUserNotifications(_user.getIdusuario());
     }
 
-    private void WriteNotifications(){
+    private void WriteNotifications() {
         list.forEach(this::WriteNotification);
     }
 
     private void WriteNotification(Notification notification) {
-        ScreenWriter.Write(String.format("Mensagem: %s",notification.getText()));
-        ScreenWriter.Write(String.format("Data: %s",notification.getDate().toString()));
+        ScreenWriter.Write(String.format("Mensagem: %s", notification.getText()));
+        ScreenWriter.Write(String.format("Data: %s", notification.getDate().toString()));
         ScreenWriter.WriteEmptyLine();
     }
 

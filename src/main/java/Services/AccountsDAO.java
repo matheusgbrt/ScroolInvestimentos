@@ -33,6 +33,24 @@ public class AccountsDAO {
         return ret;
     }
 
+    public int GetIDUsuarioConta(Integer idconta) {
+        String sql = "SELECT IDUSUARIO FROM CRIPTO_RELACAO_USUARIO_CONTA WHERE IDCONTA = ?";
+        int ret = 0;
+
+        try (Connection connection = DBConnection.getConnection(); PreparedStatement stmt = connection.prepareStatement(sql)) {
+            stmt.setInt(1, idconta);
+
+            try (ResultSet rs = stmt.executeQuery()) {
+                while (rs.next()) {
+                    ret = rs.getInt("IDUSUARIO");
+                }
+            }
+        } catch (SQLException e) {
+            ScreenWriter.Write("Erro de seleção! " + e.getMessage());
+        }
+        return ret;
+    }
+
     public boolean InitInsertAccount(int idusuario, String NomeConta){
 
         int idconta = InsertAccount(NomeConta);

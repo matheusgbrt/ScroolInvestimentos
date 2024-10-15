@@ -72,4 +72,38 @@ public class ProductsDAO {
         return ret;
     }
 
+    public boolean AddProductBalance(Integer idconta,Integer idproduto,double balance) {
+        String sql = "UPDATE CRIPTO_RELACAO_CONTA_PRODUTO SET SALDO = SALDO + ? WHERE IDPRODUTO = ? AND IDCONTA = ?";
+        boolean ret = false;
+        try (Connection connection = DBConnection.getConnection(); PreparedStatement stmt = connection.prepareStatement(sql)) {
+            stmt.setDouble(1, balance);
+            stmt.setInt(2, idproduto);
+            stmt.setInt(3, idconta);
+            int rowsAffected = stmt.executeUpdate();
+            if (rowsAffected > 0) {
+                ret = true;
+            }
+        } catch (SQLException e) {
+            ScreenWriter.Write("Erro de atualização! " + e.getMessage());
+        }
+        return ret;
+    }
+
+    public boolean RemoveProductBalance(Integer idconta,Integer idproduto,double balance) {
+        String sql = "UPDATE CRIPTO_RELACAO_CONTA_PRODUTO SET SALDO = SALDO - ? WHERE IDPRODUTO = ? AND IDCONTA = ?";
+        boolean ret = false;
+        try (Connection connection = DBConnection.getConnection(); PreparedStatement stmt = connection.prepareStatement(sql)) {
+            stmt.setDouble(1, balance);
+            stmt.setInt(2, idproduto);
+            stmt.setInt(3, idconta);
+            int rowsAffected = stmt.executeUpdate();
+            if (rowsAffected > 0) {
+                ret = true;
+            }
+        } catch (SQLException e) {
+            ScreenWriter.Write("Erro de atualização! " + e.getMessage());
+        }
+        return ret;
+    }
+
 }

@@ -1,7 +1,6 @@
 package View;
 
 import NewEntities.Account;
-import NewEntities.Notification;
 import NewEntities.Product;
 import NewEntities.User;
 import Services.AccountsDAO;
@@ -25,23 +24,24 @@ public class AccountProductState extends BaseState {
     List<Integer> _selectionlist = new ArrayList<>();
     boolean _add;
 
-    public AccountProductState(User user, Account account,boolean add) {
+    public AccountProductState(User user, Account account, boolean add) {
         setUser(user);
         _account = account;
         _add = add;
         Greet(add);
-        if (add){
+        if (add) {
             InitAdd();
-        }else{
+        } else {
             InitRemove();
         }
     }
-    public void InitRemove(){
+
+    public void InitRemove() {
         GetAccountProducts();
         initSelection();
     }
 
-    private void InitAdd(){
+    private void InitAdd() {
         GetAvailableProducts();
         initSelection();
     }
@@ -59,7 +59,7 @@ public class AccountProductState extends BaseState {
 
     public void Greet(boolean add) {
         ScreenWriter.WriteEmptyLine();
-        ScreenWriter.WritePadded(add?"Adição" : "Remoção"+" de produtos da conta");
+        ScreenWriter.WritePadded(add ? "Adição" : "Remoção" + " de produtos da conta");
     }
 
     private void ShowGetSelection() {
@@ -93,26 +93,26 @@ public class AccountProductState extends BaseState {
             _ret.errors.forEach(ScreenWriter::Write);
             ShowGetSelection();
         } else {
-            if(_add){
+            if (_add) {
                 InsertNewRelation(_ret.message);
-            }else{
+            } else {
                 InitRemoveRelation(_ret.message);
-        }
+            }
         }
     }
 
     private void InitRemoveRelation(String message) {
         Product product = _availableProducts.get(Integer.parseInt(message));
-        Double saldo = productsDAO.getProductBalance(_account.getIdconta(),product.get_idproduto());
+        Double saldo = productsDAO.getProductBalance(_account.getIdconta(), product.get_idproduto());
         if (saldo == -1.0) {
             ScreenWriter.Write("Erro ao consultar saldo! Tente novamente.");
         } else if (saldo >= 1.0) {
             ScreenWriter.Write("Produto não pode ser removido pois possui saldo! Saldo atual: %.2f");
         } else if (saldo >= 0.0) {
-            if(accountsDAO.RemoveProductRelation(_account.getIdconta(),product.get_idproduto())){
-                notificationsDAO.insertNotification(String.format("Produto removido da conta. Nome: %s",product.get_nomeProduto()),_user.getIdusuario());
+            if (accountsDAO.RemoveProductRelation(_account.getIdconta(), product.get_idproduto())) {
+                notificationsDAO.insertNotification(String.format("Produto removido da conta. Nome: %s", product.get_nomeProduto()), _user.getIdusuario());
                 ScreenWriter.Write("Produto removido com sucesso!");
-            }else{
+            } else {
                 ScreenWriter.Write("Erro ao efetuar a operação! Tente novamente");
             }
         }
@@ -125,7 +125,7 @@ public class AccountProductState extends BaseState {
         if (!insert) {
             ScreenWriter.Write("Erro ao adicionar produto!");
         } else {
-            notificationsDAO.insertNotification(String.format("Produto adicionado à conta. Nome: %s",product.get_nomeProduto()),_user.getIdusuario());
+            notificationsDAO.insertNotification(String.format("Produto adicionado à conta. Nome: %s", product.get_nomeProduto()), _user.getIdusuario());
             ScreenWriter.Write("Produto adicionado com sucesso!");
         }
         new AccountState(_user, _account, false);

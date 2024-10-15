@@ -28,6 +28,13 @@ public  class EvalPatterns{
             public List<Integer> allowedValues;
         }
 
+        public static class DoubleOptions{
+            public boolean allowNegative;
+            public boolean allowZero;
+            public boolean allowEmpty;
+            public double minValue;
+        }
+
     }
 
 

@@ -1,17 +1,21 @@
 package View;
 
 import NewEntities.Account;
+import NewEntities.Product;
 import NewEntities.User;
 import Services.AccountsDAO;
+import Services.ProductsDAO;
 import Utils.Evaluator.EvalReturn;
 import Utils.Evaluator.Evaluator;
 import Utils.ScreenWriter;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 public class AccountState extends BaseState{
     AccountsDAO accountsDAO = new AccountsDAO();
+    ProductsDAO productsDAO = new ProductsDAO();
     Account _account;
 
     public AccountState(User user,Account account,boolean greet){
@@ -40,15 +44,16 @@ public class AccountState extends BaseState{
         ScreenWriter.WriteEmptyLine();
         ScreenWriter.Write("Selecione a opção abaixo:");
         ScreenWriter.Write("1. Adicionar Produto à Conta");
-        ScreenWriter.Write("2. Visualizar Saldos de Produtos");
-        ScreenWriter.Write("3. Transferir Saldo de Produto");
+        ScreenWriter.Write("2. Visualizar Notificações do usuário");
+        ScreenWriter.Write("3. Gerenciar Saldo de Produtos");
         ScreenWriter.Write("4. Remover Produto da Conta");
+        ScreenWriter.Write("5. Visualizar Saldo de Produtos");
         ScreenWriter.Write("0. Voltar");
         ScreenWriter.WriteEmptyLine();
     }
 
     public void GetSelection(){
-        Evaluator eval = new Evaluator("Registro",getSelectionPattern(new ArrayList<>(Arrays.asList(0,1, 2, 3, 4))));
+        Evaluator eval = new Evaluator("Registro",getSelectionPattern(new ArrayList<>(Arrays.asList(0,1, 2, 3, 4,5))));
         EvalReturn evalReturn = eval.EvalData();
         if (!evalReturn.valid){
             evalReturn.errors.forEach(ScreenWriter::Write);
@@ -67,15 +72,26 @@ public class AccountState extends BaseState{
                 new AccountProductState(_user,_account,true);
                 break;
             case 2:
-                new NotificationState(_user);
+                new NotificationState(_user,_account);
                 break;
             case 3:
-                new SelectAccountState(_user);
+                new ManageBalanceState(_user,_account);
                 break;
             case 4:
                 new AccountProductState(_user,_account,false);
                 break;
+            case 5:
+                break;
         }
+    }
+
+    private void ShowBalances(){
+        List<Product> products = productsDAO.getAccountProducts(_account.getIdconta());
+        products.forEach(::WriteProductBalance);
+    }
+
+    private void WriteProductBalance(Product product){
+
     }
 
 }

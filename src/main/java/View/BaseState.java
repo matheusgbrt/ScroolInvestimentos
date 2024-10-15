@@ -4,6 +4,7 @@ import NewEntities.User;
 import Utils.Evaluator.DataTypes;
 import Utils.Evaluator.EvalPatterns;
 import java.util.List;
+import java.util.Optional;
 
 public class BaseState {
     protected static User _user;
@@ -76,6 +77,17 @@ public class BaseState {
         options.allowEmpty = false;
         options.maxLength = 300;
         options.regexpattern = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$";
+        pattern.setOptions(options);
+        return pattern;
+    }
+
+    protected EvalPatterns GetBalancePattern(double minValue){
+        EvalPatterns pattern = new EvalPatterns(DataTypes.DOUBLE);
+        EvalPatterns.DoubleOptions options = new EvalPatterns.DoubleOptions();
+        options.allowEmpty=false;
+        options.allowNegative=false;
+        options.allowZero=false;
+        options.minValue = minValue;
         pattern.setOptions(options);
         return pattern;
     }
