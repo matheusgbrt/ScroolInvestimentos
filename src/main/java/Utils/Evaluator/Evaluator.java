@@ -9,7 +9,7 @@ import java.util.regex.Pattern;
 public class Evaluator {
     Scanner scanner = new Scanner(System.in);
     List<String> errorList = new ArrayList<>();
-
+boolean _debug = false;
     String _field = "";
     EvalPatterns _pattern;
 
@@ -18,7 +18,7 @@ public class Evaluator {
         _pattern = pattern;
     }
 
-    public Evaluator(String field) {
+    public Evaluator(String field,debug) {
         _field = field.toLowerCase();
     }
 

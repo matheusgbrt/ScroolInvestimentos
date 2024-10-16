@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.Objects;
 
 public class SelectAccountState extends BaseState {
-    Evaluator eval = new Evaluator("Conta");
+    Evaluator eval = new Evaluator("Conta",_debug);
     AccountsDAO accountsDAO = new AccountsDAO();
     List<Account> _accounts;
     List<Integer> _selectionlist = new ArrayList<Integer>();

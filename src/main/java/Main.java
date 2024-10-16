@@ -11,7 +11,10 @@ public class Main {
 
 
     public static void main(String[] args) {
+        String simulatedInputs = "1\n";
+        System.setIn(new ByteArrayInputStream(simulatedInputs.getBytes()));
         InitialState state = new InitialState();
         state.AskMain();
+
     }
 }

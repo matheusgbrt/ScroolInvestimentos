@@ -8,10 +8,12 @@ import java.util.Optional;
 
 public class BaseState {
     protected static User _user;
-
+    boolean _debug = false;
     public void setUser(User user) {
         _user = user;
     }
+
+
 
 
     protected EvalPatterns getSelectionPattern(List<Integer> allowedValues ){

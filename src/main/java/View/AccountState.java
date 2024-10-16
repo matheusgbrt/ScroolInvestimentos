@@ -87,7 +87,6 @@ public class AccountState extends BaseState{
 
     private void ShowBalances(){
         List<Product> products = productsDAO.getAccountProducts(_account.getIdconta());
-        products.forEach(::WriteProductBalance);
     }
 
     private void WriteProductBalance(Product product){
